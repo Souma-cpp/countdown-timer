@@ -1,125 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Day in Focus</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        background: url("https://source.unsplash.com/1920x1080/?inspiration,nature")
-          no-repeat center center fixed;
-        background-size: cover;
-        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-          sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
-        text-shadow: 1px 1px 4px #000;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Countdown</title>
+  <style>
+    /* Glassmorphism base */
+    * {
+      box-sizing: border-box;
+    }
 
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url("https://source.unsplash.com/1920x1080/?focus,minimal") no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .glass-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 30px;
+    }
+
+    #timer {
+      font-size: 2.8em;
+      margin-bottom: 30px;
+      word-spacing: 5px;
+    }
+
+    .search-box {
+      width: 100%;
+    }
+
+    .search-box input[type="text"] {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1.2em;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+
+    .search-box input::placeholder {
+      color: #ddd;
+    }
+
+    @media (max-width: 600px) {
       h1 {
-        font-size: 2.2em;
-        margin-bottom: 10px;
+        font-size: 1.6em;
       }
-
       #timer {
-        font-size: 2.8em;
-        letter-spacing: 1px;
-        background-color: rgba(0, 0, 0, 0.4);
-        padding: 16px 32px;
-        border-radius: 10px;
-        margin-bottom: 20px;
+        font-size: 2em;
       }
-
-      #quote {
-        font-size: 1.4em;
-        max-width: 700px;
-        text-align: center;
-        margin-bottom: 40px;
-      }
-
-      #searchBox {
-        width: 50%;
-        min-width: 300px;
-      }
-
-      input[type="text"] {
-        width: 100%;
-        padding: 12px;
-        font-size: 1.2em;
-        border-radius: 8px;
-        border: none;
-        outline: none;
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-      }
-    </style>
-  </head>
-  <body>
-    <h1>⏳ Time left today:</h1>
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-container">
+    <h1>Time left today</h1>
     <div id="timer">Loading...</div>
-    <div id="quote">Fetching quote...</div>
 
-    <div id="searchBox">
-      <form
-        id="searchForm"
-        action="https://www.google.com/search"
-        method="GET"
-        target="_blank"
-      >
-        <input
-          type="text"
-          name="q"
-          placeholder="Search with Google..."
-          autocomplete="off"
-        />
+    <div class="search-box">
+      <form action="https://www.google.com/search" method="GET" target="_blank">
+        <input type="text" name="q" placeholder="Search Google...">
       </form>
     </div>
+  </div>
 
-    <script>
-      // Countdown to midnight
-      function updateTimer() {
-        const now = new Date();
-        const midnight = new Date();
-        midnight.setHours(23, 59, 59, 999);
-        const distance = midnight.getTime() - now.getTime();
+  <script>
+    const countdownDate = new Date();
+    countdownDate.setHours(23, 59, 59, 999); // End of day
 
-        const hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        const milliseconds = distance % 1000;
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = countdownDate.getTime() - now;
 
-        document.getElementById(
-          "timer"
-        ).innerHTML = `${hours}h : ${minutes}m : ${seconds}s : ${milliseconds}ms`;
-
-        requestAnimationFrame(updateTimer);
+      if (distance <= 0) {
+        document.getElementById("timer").innerText = "00h 00m 00s 000ms";
+        return;
       }
 
-      updateTimer();
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      const milliseconds = Math.floor(distance % 1000);
 
-      // Daily quote from Quotable API
-      fetch("https://api.quotable.io/random")
-        .then((res) => res.json())
-        .then((data) => {
-          document.getElementById(
-            "quote"
-          ).innerText = `"${data.content}" — ${data.author}`;
-        })
-        .catch(() => {
-          document.getElementById("quote").innerText = "Failed to load quote.";
-        });
+      document.getElementById("timer").innerText =
+        `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s ${String(milliseconds).padStart(3, '0')}ms`;
 
-      // Optional: focus search input on load
-      window.onload = () => {
-        document.querySelector('input[name="q"]').focus();
-      };
-    </script>
-  </body>
+      requestAnimationFrame(updateTimer);
+    }
+
+    updateTimer();
+  </script>
+</body>
 </html>
