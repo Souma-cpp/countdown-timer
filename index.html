@@ -14,23 +14,21 @@
         padding: 0;
         height: 100vh;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: url("https://source.unsplash.com/1920x1080/?focus,minimal")
-          no-repeat center center fixed;
-        background-size: cover;
+        background: linear-gradient(135deg, #e9f5ec, #d1f5e0);
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
+        color: #0f5132;
       }
 
       .glass-container {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.25);
         border-radius: 20px;
         padding: 40px;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         text-align: center;
         width: 90%;
         max-width: 600px;
@@ -39,13 +37,15 @@
       h1 {
         font-size: 2.5em;
         margin-bottom: 20px;
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        color: #146c43;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
       }
 
       #timer {
-        font-size: 2.2em;
+        font-size: 2em;
         margin-bottom: 30px;
         word-spacing: 5px;
+        font-weight: bold;
       }
 
       .search-box input[type="text"] {
@@ -53,33 +53,33 @@
         padding: 15px 20px;
         border-radius: 10px;
         border: none;
-        font-size: 1.2em;
+        font-size: 1.1em;
         outline: none;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
+        background: rgba(255, 255, 255, 0.5);
+        color: #0f5132;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
-        box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+        box-shadow: inset 0 0 6px rgba(0, 128, 0, 0.2);
         text-align: center;
       }
 
       .search-box input::placeholder {
-        color: #eee;
+        color: #2f6c46;
       }
 
       @media (max-width: 600px) {
         h1 {
-          font-size: 1.6em;
+          font-size: 1.8em;
         }
         #timer {
-          font-size: 1.8em;
+          font-size: 1.5em;
         }
       }
     </style>
   </head>
   <body>
     <div class="glass-container">
-      <h1>Time left today</h1>
+      <h1>Time Left Today</h1>
       <div id="timer">Loading...</div>
 
       <div class="search-box">
@@ -97,7 +97,7 @@
       function updateTimer() {
         const now = new Date();
         const end = new Date();
-        end.setHours(23, 59, 59, 999); // End of day
+        end.setHours(23, 59, 59, 999);
 
         const distance = end - now;
 
