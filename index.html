@@ -1,123 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Countdown</title>
-  <style>
-    /* Glassmorphism base */
-    * {
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Countdown</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: url("https://source.unsplash.com/1920x1080/?focus,minimal") no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: url("https://source.unsplash.com/1920x1080/?focus,minimal")
+          no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
 
-    .glass-container {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 40px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-      text-align: center;
-      width: 90%;
-      max-width: 600px;
-    }
+      .glass-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        text-align: center;
+        width: 90%;
+        max-width: 600px;
+      }
 
-    h1 {
-      font-size: 2.2em;
-      margin-bottom: 30px;
-    }
-
-    #timer {
-      font-size: 2.8em;
-      margin-bottom: 30px;
-      word-spacing: 5px;
-    }
-
-    .search-box {
-      width: 100%;
-    }
-
-    .search-box input[type="text"] {
-      width: 100%;
-      padding: 15px 20px;
-      border-radius: 10px;
-      border: none;
-      font-size: 1.2em;
-      outline: none;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
-      text-align: center;
-    }
-
-    .search-box input::placeholder {
-      color: #ddd;
-    }
-
-    @media (max-width: 600px) {
       h1 {
-        font-size: 1.6em;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
       }
+
       #timer {
-        font-size: 2em;
+        font-size: 2.2em;
+        margin-bottom: 30px;
+        word-spacing: 5px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="glass-container">
-    <h1>Time left today</h1>
-    <div id="timer">Loading...</div>
 
-    <div class="search-box">
-      <form action="https://www.google.com/search" method="GET" target="_blank">
-        <input type="text" name="q" placeholder="Search Google...">
-      </form>
+      .search-box input[type="text"] {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 10px;
+        border: none;
+        font-size: 1.2em;
+        outline: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+        text-align: center;
+      }
+
+      .search-box input::placeholder {
+        color: #eee;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.6em;
+        }
+        #timer {
+          font-size: 1.8em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="glass-container">
+      <h1>Time left today</h1>
+      <div id="timer">Loading...</div>
+
+      <div class="search-box">
+        <form
+          action="https://www.google.com/search"
+          method="GET"
+          target="_blank"
+        >
+          <input type="text" name="q" placeholder="Search Google..." />
+        </form>
+      </div>
     </div>
-  </div>
 
-  <script>
-    const countdownDate = new Date();
-    countdownDate.setHours(23, 59, 59, 999); // End of day
+    <script>
+      function updateTimer() {
+        const now = new Date();
+        const end = new Date();
+        end.setHours(23, 59, 59, 999); // End of day
 
-    function updateTimer() {
-      const now = new Date().getTime();
-      const distance = countdownDate.getTime() - now;
+        const distance = end - now;
 
-      if (distance <= 0) {
-        document.getElementById("timer").innerText = "00h 00m 00s 000ms";
-        return;
+        if (distance <= 0) {
+          document.getElementById("timer").innerText = "00h 00m 00s 000ms";
+          return;
+        }
+
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const milliseconds = distance % 1000;
+
+        document.getElementById("timer").innerText = `${String(hours).padStart(
+          2,
+          "0"
+        )}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(
+          2,
+          "0"
+        )}s ${String(milliseconds).padStart(3, "0")}ms`;
+
+        requestAnimationFrame(updateTimer);
       }
 
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      const milliseconds = Math.floor(distance % 1000);
-
-      document.getElementById("timer").innerText =
-        `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s ${String(milliseconds).padStart(3, '0')}ms`;
-
-      requestAnimationFrame(updateTimer);
-    }
-
-    updateTimer();
-  </script>
-</body>
+      updateTimer();
+    </script>
+  </body>
 </html>
