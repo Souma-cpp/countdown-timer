@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Countdown</title>
+    <title>Aurora Countdown</title>
     <style>
       * {
         box-sizing: border-box;
@@ -13,65 +13,112 @@
 
       body {
         height: 100vh;
-        background: linear-gradient(135deg, #e0f0e9, #c8e9d6);
-        font-family: "Poppins", "Segoe UI", sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: url("https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?b=1&s=612x612&w=0&k=20&c=IgccuZlW6F7T8JU3MYeqtV7CxXR_1ATU-jia7gSKaVc=")
+          no-repeat center center fixed;
+        background-size: cover;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #0f5132;
+        color: #1b4332;
       }
 
       .glass-container {
-        background: rgba(255, 255, 255, 0.25);
-        border-radius: 20px;
-        padding: 40px 30px;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
-        text-align: center;
-        width: 90%;
+        position: relative;
+        width: 100%;
         max-width: 500px;
-        transition: all 0.3s ease-in-out;
-      }
-
-      .glass-container:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 40px 30px;
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        text-align: center;
+        overflow: hidden;
       }
 
-      h1 {
+      .glass-container::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(
+            100deg,
+            #1c4532 10%,
+            #38a169 15%,
+            #68d391 20%,
+            #b2f5ea 25%,
+            #48bb78 30%
+          ),
+          radial-gradient(
+            ellipse at top right,
+            rgba(255, 255, 255, 0.15),
+            transparent
+          );
+        background-size: 300% 200%;
+        background-position: 50% 50%;
+        opacity: 0.3;
+        mix-blend-mode: overlay;
+        filter: blur(25px);
+        z-index: 0;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .heading {
         font-size: 2.4rem;
-        margin-bottom: 20px;
-        color: #14532d;
-        letter-spacing: 1px;
+        font-weight: 700;
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(0, 64, 32, 0.6);
       }
 
       #timer {
         font-size: 2rem;
         font-weight: 600;
-        margin-bottom: 30px;
-        color: #0f3f29;
+        padding: 14px 26px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 20px rgba(0, 128, 64, 0.4);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        font-family: "Trebuchet MS", sans-serif;
+        letter-spacing: 1px;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .search-box {
+        display: flex;
+        width: 100%;
+        gap: 8px;
       }
 
       .search-box input[type="text"] {
-        width: 100%;
-        padding: 14px 20px;
+        flex: 1;
+        padding: 12px 18px;
         border-radius: 12px;
         border: none;
-        font-size: 1.1em;
+        font-size: 1em;
         background: rgba(255, 255, 255, 0.6);
         color: #1b4332;
         box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
         text-align: center;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(10px);
         transition: all 0.2s ease-in-out;
       }
 
       .search-box input[type="text"]:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.3);
-        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.4);
+        background: rgba(255, 255, 255, 0.85);
       }
 
       .search-box input::placeholder {
@@ -79,35 +126,48 @@
         opacity: 0.7;
       }
 
-      @media (max-width: 600px) {
-        h1 {
-          font-size: 1.8rem;
-        }
-        #timer {
-          font-size: 1.5rem;
-        }
+      .search-box button {
+        padding: 12px 18px;
+        border-radius: 12px;
+        background: #1f5135;
+        border: none;
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .search-box button:hover {
+        background: #276749;
       }
     </style>
   </head>
   <body>
     <div class="glass-container">
-      <h1>Time Left Today</h1>
-      <div id="timer">Loading...</div>
+      <div class="content">
+        <div class="heading">Time Left Today</div>
+        <div id="timer">Loading...</div>
 
-      <div class="search-box">
-        <form
-          action="https://www.google.com/search"
-          method="GET"
-          target="_blank"
-        >
-          <input type="text" name="q" placeholder="Search Google..." />
-        </form>
+        <div class="search-box">
+          <form
+            action="https://www.google.com/search"
+            method="GET"
+            target="_blank"
+            style="display: flex; width: 100%; gap: 8px"
+          >
+            <input type="text" name="q" placeholder="Search Google..." />
+            <button type="submit">Search</button>
+          </form>
+        </div>
       </div>
     </div>
 
     <script>
       function updateTimer() {
         const now = new Date();
+        now.setMinutes(now.getMinutes() + 12); // Adjust for 12-minute lag
         const end = new Date();
         end.setHours(23, 59, 59, 999);
 
